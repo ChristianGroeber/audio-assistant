@@ -3,10 +3,6 @@ import sys
 import argparse
 import shutil
 import random
-# import subprocess
-# import soundfile as sf
-# import numpy as np
-# import lameenc as lame
 import audio_metadata
 
 
@@ -88,8 +84,6 @@ for form in forms:
     for file in originals:
         name, ext = os.path.splitext(file)
         print(name)
-        # subprocess.call(["lame", "-S ", forms[form], os.path.join(folder, file), name + ".mp3"])
-        # subprocess.run("lame -S " + forms[form] + " '" + os.path.join(folder, file) + "' '" + os.path.join(os.getcwd(), name + ".mp3") + "'")
         data = metadata[file]
         os.system("lame -S " + forms[form] + " \"" + os.path.join(folder, file) + "\" \"" + name + ".mp3\" --tt \"" + data['title'] + "\" --ta \"" + data['artist'] + "\" --tl \"" + data['album'] + "\" --ty \"" + data['date'] + "\" --tn " + data['tracknumber'])
     os.chdir(current)
