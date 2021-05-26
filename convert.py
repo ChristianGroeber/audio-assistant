@@ -23,8 +23,11 @@ original = folder.split('/')[-1]
 os.chdir(folder)
 os.chdir('..')
 parent_dir = os.getcwd()
+
+
 spectral_dir = os.path.join(parent_dir, 'spectrals')
-os.mkdir(spectral_dir)
+if not os.path.isdir(spectral_dir):
+    os.mkdir(spectral_dir)
 log_file = os.path.join(parent_dir, original + '.log')
 final_dirs = [folder]
 print(log_file)
