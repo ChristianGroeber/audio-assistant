@@ -19,4 +19,4 @@ for file in os.listdir():
     if ext != '.flac':
         continue   
     print("Now converting " + file)
-    os.system("sox \"" + file + "\" -b16 \"16bit/" + file + "\"")
+    os.system("sox \"" + file + "\" -b16 \"16bit/" + file + "\" rate -v -L 48000 dither")
