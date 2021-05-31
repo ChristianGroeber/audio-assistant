@@ -21,8 +21,9 @@ tracklist = [0]*len(songs)
 for song in songs:
     name, ext = os.path.splitext(song)
     audio = mutagen.File(os.path.join(album, song))
-    length = math.floor(audio.info.length / 0.6) / 100
-    tracklist[int(audio['tracknumber'][0]) - 1] = name + " " + str(length)
+    minutes = audio.info.length / 60 
+    seconds = (minutes - math.floor(minutes)) * 60
+    tracklist[int(audio['tracknumber'][0]) - 1] = name + " " + str(math.floor(minutes)) + ':' + str(math.floor(seconds))
 
 album_information += '\n'.join(tracklist)
 print(album_information)
