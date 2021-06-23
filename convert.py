@@ -1,8 +1,6 @@
 import os
-import sys
 import argparse
 import shutil
-import random
 import audio_metadata
 from helpers import get_audio_files, str2bool
 from _24bit_to_16bit import down_encode
