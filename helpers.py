@@ -1,5 +1,6 @@
 import os
 import argparse
+import audio_metadata
 
 def get_audio_files(directory, extensions = ['.flac', '.mp3']):
     files = []
@@ -19,3 +20,11 @@ def str2bool(v):
         return False
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
+
+
+def get_metadata(track):
+    data = audio_metadata.load(track)['tags']
+    ret = {}
+    for item in data:
+        ret[item] = ', '.join(data[item])
+    return ret

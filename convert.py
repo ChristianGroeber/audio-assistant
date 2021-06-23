@@ -5,16 +5,19 @@ import shutil
 import random
 import audio_metadata
 from helpers import get_audio_files, str2bool
+from _24bit_to_16bit import down_encode
 
 
 # STEP 0: Setup
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', help='Directory to convert')
 parser.add_argument('--skip-spectrals', help='Do not create Spectrals', type=str2bool, nargs='?', const=True, default=False)
+parser.add_argument('--is-24bit', help='The Source is 24bit-encoded', type=str2bool, nargs='?', const=True, default=False)
 args = parser.parse_args()
 
 folder = args.d
 skip_spectrals = args.skip_spectrals
+is_24bit = args.is_24bit
 
 forms = {'320': '-b 320', 'V0': '-V 0'}
 
@@ -34,6 +37,9 @@ print(log_file)
 
 originals = get_audio_files(folder, ['.flac'])
 os.chdir(folder)
+
+if is_24bit:
+    down_encode(folder)
 
 # STEP 0.1: Get Metadata
 metadata = {}
