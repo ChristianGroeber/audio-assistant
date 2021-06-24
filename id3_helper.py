@@ -1,4 +1,3 @@
-import mutagen
 import argparse
 import os
 from helpers import get_audio_files, str2bool

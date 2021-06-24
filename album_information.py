@@ -12,6 +12,11 @@ args = parser.parse_args()
 
 album = args.d
 
+for file in os.listdir(album):
+    if os.path.isdir(os.path.join(album, file)) and file != '.' and file != '..':
+        album = os.path.join(album, file)
+print(album)
+
 songs = get_audio_files(album)
 
 album_information = "[size=4]Tracklist[/size]\n"

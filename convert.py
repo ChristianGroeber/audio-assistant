@@ -11,10 +11,18 @@ from helpers import get_audio_files, str2bool
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', help='Directory to convert')
 parser.add_argument('--skip-spectrals', help='Do not create Spectrals', type=str2bool, nargs='?', const=True, default=False)
+parser.add_argument('--spectral-dir', help='Where to store spectrals', required=False)
+parser.add_argument('--out-dir', help='Where to store converted files', required=False)
 args = parser.parse_args()
 
 folder = args.d
 skip_spectrals = args.skip_spectrals
+out_dir = args.out_dir
+spectral_dir = args.spectral_dir
+
+for file in os.listdir(folder):
+    if os.path.isdir(os.path.join(folder, file)) and file != '.' and file != '..':
+        folder = os.path.join(folder, file)
 
 forms = {'320': '-b 320', 'V0': '-V 0'}
 
@@ -24,13 +32,7 @@ os.chdir(folder)
 os.chdir('..')
 parent_dir = os.getcwd()
 
-
-spectral_dir = os.path.join(parent_dir, 'spectrals')
-if not os.path.isdir(spectral_dir):
-    os.mkdir(spectral_dir)
-log_file = os.path.join(parent_dir, original + '.log')
 final_dirs = [folder]
-print(log_file)
 
 originals = get_audio_files(folder, ['.flac'])
 os.chdir(folder)
@@ -63,6 +65,7 @@ os.chdir('..')
 for form in forms:
     current = os.getcwd()
     new = original + ' (' + form + ')'
+    new = os.path.join(out_dir, new)
     print(new)
     shutil.copytree(original, new)
     os.chdir(new)
@@ -73,7 +76,7 @@ for form in forms:
         data = metadata[file]
         os.system("lame -S " + forms[form] + " \"" + os.path.join(folder, file) + "\" \"" + name + ".mp3\" --tt \"" + data['title'] + "\" --ta \"" + data['artist'] + "\" --tl \"" + data['album'] + "\" --ty \"" + data['date'] + "\" --tn " + data['tracknumber'])
     os.chdir(current)
-    final_dirs.append(os.path.join(parent_dir, new))
+    final_dirs.append(new)
 
 # STEP 3: Create the .torrent file
 os.chdir(parent_dir)
