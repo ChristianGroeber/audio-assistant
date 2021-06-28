@@ -27,7 +27,7 @@ parent_dir = os.getcwd()
 
 
 spectral_dir = os.path.join(parent_dir, 'spectrals')
-if not os.path.isdir(spectral_dir):
+if not os.path.isdir(spectral_dir) and not skip_spectrals:
     os.mkdir(spectral_dir)
 log_file = os.path.join(parent_dir, original + '.log')
 final_dirs = [folder]
