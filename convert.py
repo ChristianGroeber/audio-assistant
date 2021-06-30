@@ -17,7 +17,7 @@ folder = args.d
 skip_spectrals = args.skip_spectrals
 is_24bit = args.is_24bit
 
-forms = {'320': '-b 320', 'V0': '-V 0'}
+forms = {'320': '-b 320'}
 
 original = folder.split('/')[-1]
 
@@ -32,6 +32,16 @@ if not os.path.isdir(spectral_dir) and not skip_spectrals:
 log_file = os.path.join(parent_dir, original + '.log')
 final_dirs = [folder]
 print(log_file)
+
+tags_options = {
+    "artist": "ta",
+    "title": "tt",
+    "album": "tl",
+    "date": "ty",
+    "comment": "tc",
+    "tracknumber": "tn",
+    "genre": "tg",
+}
 
 originals = get_audio_files(folder, ['.flac'])
 os.chdir(folder)
@@ -75,7 +85,15 @@ for form in forms:
         name, ext = os.path.splitext(file)
         print(name)
         data = metadata[file]
-        os.system("lame -S " + forms[form] + " \"" + os.path.join(folder, file) + "\" \"" + name + ".mp3\" --tt \"" + data['title'] + "\" --ta \"" + data['artist'] + "\" --tl \"" + data['album'] + "\" --ty \"" + data['date'] + "\" --tn " + data['tracknumber'])
+        tags_string = ""
+        for tag in data:
+            if tag in tags_options:
+                tags_string += "--" + tags_options[tag] + " \"" + data[tag] + "\" "
+            else:
+                tags_string += "--tv " + tag + "=\"" + data[tag] + "\" "
+        print(tags_string)
+        print(data)
+        os.system("lame -S " + forms[form] + " \"" + os.path.join(folder, file) + "\" \"" + name + ".mp3\" " + tags_string)
     os.chdir(current)
     final_dirs.append(os.path.join(parent_dir, new))
 
