@@ -31,7 +31,7 @@ for song in songs:
         data = get_metadata(os.path.join(album, song))
         track_str = "[b]" + data['tracknumber'] + ".[/b]"
         if args.include_artist:
-            track_str += " " + data['artist']
+            track_str += " " + data['artist'] + " -"
         track_str += " " + data['title']
     else:
         track_str = name 
