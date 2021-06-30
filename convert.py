@@ -79,6 +79,13 @@ for form in forms:
     os.chdir(current)
     final_dirs.append(os.path.join(parent_dir, new))
 
+os.chdir(parent_dir)
+
+if is_24bit:
+    shutil.move(folder, folder + ' (16bit)')
+    final_dirs.append(folder + ' (16bit)')
+    final_dirs.remove(folder)
+
 # STEP 3: Create the .torrent file
 os.chdir(parent_dir)
 for directory in final_dirs:
