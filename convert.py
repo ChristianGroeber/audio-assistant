@@ -18,6 +18,7 @@ skip_spectrals = args.skip_spectrals
 is_24bit = args.is_24bit
 
 forms = {'320': '-b 320', 'V0': '-V 0'}
+#forms = {}
 
 original = folder.split('/')[-1]
 
